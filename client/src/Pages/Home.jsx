@@ -52,7 +52,7 @@ function HomePage() {
           <p>No products available.</p>
         )}
       </div>
-
+  
       {/* Show ProductViewCard if a product is selected */}
       {selectedProduct && (
         <div className="blur-background" onClick={closeProductView}>
@@ -66,6 +66,7 @@ function HomePage() {
       )}
     </div>
   );
+  
 }
 
 export default HomePage;

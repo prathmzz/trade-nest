@@ -20,9 +20,9 @@ yarn-debug.log*
 yarn-error.log*
 
 # Ignore environment variable files
-.env
-client/.env
-server/.env
+# .env
+# client/.env
+# server/.env
 
 # Ignore build directories
 build/

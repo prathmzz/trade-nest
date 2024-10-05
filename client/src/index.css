@@ -2,3 +2,31 @@ body {
   background-color: rgb(40, 40, 40);
   color: white;
 }
+
+/* HomePage.css */
+
+.blurred {
+  filter: blur(4px); /* Adjust the blur amount as needed */
+}
+
+.blur-background {
+  position: fixed; /* Use fixed positioning to cover the entire viewport */
+  top: 0; /* Align to the top */
+  left: 0; /* Align to the left */
+  width: 100vw; /* Full width */
+  height: 100vh; /* Full height */
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex; /* Use flexbox to center content */
+  align-items: center; /* Vertically center */
+  justify-content: center; /* Horizontally center */
+  z-index: 1000; /* Ensure it's on top of other elements */
+}
+
+.product-view-container {
+  max-width: 90%; /* Limit width on larger screens */
+  max-height: 90%; /* Limit height on larger screens */
+  overflow-y: auto; /* Allow scrolling if content is larger than the container */
+  background: white; /* Background color for the product view */
+  border-radius: 8px; /* Optional: rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: shadow for depth */
+}
