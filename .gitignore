@@ -1,0 +1,66 @@
+# Ignore node_modules at both root and subfolders (client, server)
+node_modules/
+client/node_modules/
+server/node_modules/
+
+package-lock.json/
+client/package-lock.json/
+serverpackage-lock.json/
+
+# Ignore node_modules at both root and subfolders (client, server)
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Ignore logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore environment variable files
+.env
+client/.env
+server/.env
+
+# Ignore build directories
+build/
+dist/
+client/build/
+server/build/
+client/dist/
+server/dist/
+
+# Ignore operating system files
+.DS_Store
+Thumbs.db
+
+# Ignore temporary files
+tmp/
+temp/
+*.swp
+*.swo
+
+# Ignore editor/project files
+.vscode/
+.idea/
+
+# Ignore the coverage reports (if you are running tests)
+coverage/
+client/coverage/
+server/coverage/
+
+# Ignore babel cache (if using babel)
+.cache/
+
+# Ignore next.js (if using it in the project)
+.next/
+out/
+
+# Ignore React local settings
+client/.next/
+client/.nuxt/
+
+# Ignore Yarn & npm package locks
+yarn.lock

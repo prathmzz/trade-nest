@@ -1,0 +1,98 @@
+/* Navbar container */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #343a40; /* Dark background */
+  padding: 10px 20px;
+  position: relative; /* Needed to center the welcome message */
+}
+
+/* Brand and welcome message */
+.navbar-brand {
+  flex: 1; /* Allow brand to take up available space */
+}
+
+.brand-link {
+  color: white;
+  text-decoration: none;
+}
+
+.welcome-text-container {
+  position: absolute; /* Absolutely position the welcome text */
+  left: 50%;
+  transform: translateX(-50%); /* Center it horizontally */
+  color: #ffc107;
+  font-size: 1.2rem;
+}
+
+/* Search bar */
+.search-bar input {
+  width: 250px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+/* Nav buttons */
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
+.nav-button {
+  color: white;
+  background-color: #007bff;
+  padding: 10px 15px;
+  text-decoration: none;
+  border-radius: 4px;
+  margin-right: 20px; /* Spacing between buttons */
+  transition: background-color 0.3s;
+}
+
+.logout-button {
+  background-color: transparent; /* Remove background color for Logout */
+  border: none; /* Remove border */
+}
+
+/* Hover effects */
+.nav-button:hover {
+  color: #007bff; /* Add a hover effect to change the text color */
+}
+
+.logout-button:hover {
+  color: #dc3545; /* Change the color of Logout on hover */
+}
+
+/* Optional: Auth links container for Login and Register */
+.auth-links {
+  display: flex;
+  gap: 10px;
+}
+
+.auth-links .nav-button {
+  margin-right: 0;
+}
+
+/* Nav buttons */
+.nav-button {
+  color: white; /* Keep the text color visible */
+  padding: 10px 10px;
+  text-decoration: none;
+  margin-right: 20px; /* Spacing between buttons */
+  transition: color 0.3s;
+  background-color: transparent; /* Remove background color */
+  border: none; /* Remove any border */
+  margin-left: 10px;
+}
+
+/* Hover effects for all buttons */
+.nav-button:hover {
+  color: #007bff; /* Change text color on hover */
+}
+
+/* Logout button */
+.logout-button:hover {
+  color: #dc3545; /* Change color of Logout text on hover */
+}
+
