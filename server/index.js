@@ -4,10 +4,11 @@ import path from 'path';
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import multer from 'multer';
-import userRoute from "./Routes/userRoute.js"; // Ensure you use .js extension
 import http from "http";
 import { Server as SocketIO } from "socket.io"; // Use named import for Socket.io
-import productModel from "./Models/productModel.js";
+import productModel from "./Models/productModel.js"; // Ensure correct model path
+import userRoute from "./Routes/userRoute.js"; // Importing user routes
+import favouriteRoute from "./Routes/favouriteRoute.js"; // Importing favourite routes
 
 dotenv.config(); // Load environment variables
 const app = express();
@@ -21,12 +22,10 @@ app.use(cors({
 
 app.use(express.json());
 app.use('/uploads', express.static(path.join(path.resolve(), 'uploads'))); // Use path.resolve() for better compatibility
-app.use('/js', express.static(path.join(path.resolve(), 'js'))); // Serve static files for JS
 
-// Socket.io setup
-const server = http.createServer(app);
-const io = new SocketIO(server);
-
+// Use the userRoute for user-related API requests
+app.use("/api/users", userRoute);
+app.use("/api/users/favourites", favouriteRoute); 
 // Multer configuration for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -90,6 +89,9 @@ app.get('/get-product', async (req, res) => {
 })();
 
 // Socket.io connection
+const server = http.createServer(app);
+const io = new SocketIO(server);
+
 io.on("connection", (socket) => {
   console.log("Socket connected:", socket.id); // Log connection
   socket.on("send-location", (data) => {

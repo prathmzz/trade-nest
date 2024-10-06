@@ -28,7 +28,7 @@ const ExpandMore = styled((props) => {
   transform: ({ expand }) => (expand ? 'rotate(180deg)' : 'rotate(0deg)'),
 }));
 
-export default function ProductViewCard(props) {
+export default function ViewProduct(props) {
   const { product } = props;
   const [expanded, setExpanded] = React.useState(false);
   const navigate = useNavigate(); // Initialize navigate

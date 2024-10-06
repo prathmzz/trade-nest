@@ -1,4 +1,6 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+import productModel from "./productModel.js"; // Ensure you include .js extension
+
 const userSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, minLength: 3, maxLength: 100 },
@@ -10,6 +12,7 @@ const userSchema = new mongoose.Schema(
       unique: true,
     },
     password: { type: String, required: true, minLength: 3, maxLength: 100 },
+    favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }] // Change this to 'Product'
   },
   {
     timestamps: true,
@@ -18,4 +21,4 @@ const userSchema = new mongoose.Schema(
 
 const userModel = mongoose.model("User", userSchema);
 
-module.exports = userModel;
+export default userModel;

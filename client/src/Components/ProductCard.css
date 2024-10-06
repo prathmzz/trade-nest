@@ -1,0 +1,29 @@
+.product-card{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.like-button{
+    position: absolute;
+    border: 1px solid rgb(130, 130, 130);
+    top: 8%;
+    right: 12%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px; /* Adjust size as per your preference */
+    height: 35px;
+    background-color: rgba(128, 128, 128, 0.5); /* Semi-transparent gray */
+    border-radius: 8px; /* For a rounded box, adjust as needed */
+    border: 1px solid rgba(128, 128, 128, 0.5);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.like-button:hover {
+    background-color: rgba(86, 86, 86, 0.7); /* Darker on hover */
+    width: 40px; 
+    height: 40px;
+}

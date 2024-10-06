@@ -1,11 +1,12 @@
-const express = require("express");
-const { sendOtp, verifyOtp } = require("../Controllers/otpController");
-const {
+import express from "express";
+import { sendOtp, verifyOtp } from '../Controllers/otpController.js'; // Ensure the .js extension is included
+import {
   registerUser,
   loginUser,
   findUser,
   getUsers,
-} = require("../Controllers/userController");
+} from "../Controllers/userController.js"; // Add .js extension
+
 const router = express.Router();
 
 router.post("/register", registerUser);
@@ -30,5 +31,4 @@ router.post("/verify-otp", (req, res) => {
   res.json(result);
 });
 
-
-module.exports = router;
+export default router;
