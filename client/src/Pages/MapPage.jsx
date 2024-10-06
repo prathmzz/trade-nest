@@ -1,3 +1,4 @@
+// MapPage.js
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import io from 'socket.io-client';
@@ -21,13 +22,7 @@ const MapPage = () => {
         setMap(initialMap);
 
         // Socket.io setup
-        socket.current = io('http://localhost:5000'); // replace with your socket server URL
-
-        socket.current.on("receive-location", (data) => {
-            // Add marker for the received location
-            const marker = L.marker([data.latitude, data.longitude]).addTo(map);
-            marker.bindPopup(`Location from ${data.id}`).openPopup();
-        });
+        socket.current = io('http://your-socket-url'); // replace with your socket server URL
 
         // Cleanup on component unmount
         return () => {
@@ -35,18 +30,6 @@ const MapPage = () => {
             socket.current.disconnect();
         };
     }, []);
-
-    const sendCurrentLocation = () => {
-        navigator.geolocation.getCurrentPosition((position) => {
-            const { latitude, longitude } = position.coords;
-            socket.current.emit("send-location", { latitude, longitude });
-            setLocations([...locations, { latitude, longitude }]);
-            const marker = L.marker([latitude, longitude]).addTo(map);
-            map.setView([latitude, longitude], 13); // Zoom into the new marker position
-        }, (error) => {
-            alert('Unable to retrieve your location: ' + error.message);
-        });
-    };
 
     const addLocation = () => {
         const googleMapsUrl = document.getElementById('googleMapsUrl').value;
@@ -74,7 +57,6 @@ const MapPage = () => {
                 <label htmlFor="googleMapsUrl">Enter Google Maps URL:</label>
                 <input type="text" id="googleMapsUrl" placeholder="Paste Google Maps URL here" />
                 <button onClick={addLocation}>Add Location</button>
-                <button onClick={sendCurrentLocation}>Get Current Location</button>
             </div>
         </>
     );
