@@ -87,10 +87,7 @@ app.use("/api/users", userRoute);
 
 // MongoDB connection
 mongoose
-  .connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(uri)
   .then(() => console.log("MongoDB connection established"))
   .catch((error) => console.log("MongoDB connection failed", error.message));
 
