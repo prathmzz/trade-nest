@@ -1,13 +1,15 @@
-const express = require("express");
-const cors = require("cors");
-const path = require('path');
-const mongoose = require("mongoose");
-require("dotenv").config();
-const multer = require('multer');
-const userRoute = require("./Routes/userRoute");
-const http = require("http"); // Added for socket.io
-const socketio = require("socket.io"); // Added for socket.io
+import express from "express";
+import cors from "cors"; // Importing CORS as ES module
+import path from 'path';
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import multer from 'multer';
+import userRoute from "./Routes/userRoute.js"; // Ensure you use .js extension
+import http from "http";
+import { Server as SocketIO } from "socket.io"; // Use named import for Socket.io
+import productModel from "./Models/productModel.js";
 
+dotenv.config(); // Load environment variables
 const app = express();
 const port = process.env.PORT || 5000;
 const uri = process.env.ATLAS_URI;
@@ -18,34 +20,25 @@ app.use(cors({
 }));
 
 app.use(express.json());
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use('/js', express.static(path.join(__dirname, 'js'))); // Serve static files for JS
+app.use('/uploads', express.static(path.join(path.resolve(), 'uploads'))); // Use path.resolve() for better compatibility
+app.use('/js', express.static(path.join(path.resolve(), 'js'))); // Serve static files for JS
 
 // Socket.io setup
 const server = http.createServer(app);
-const io = socketio(server);
+const io = new SocketIO(server);
 
 // Multer configuration for file uploads
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: (req, file, cb) => {
     cb(null, 'uploads');
   },
-  filename: function (req, file, cb) {
+  filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
     cb(null, file.fieldname + '-' + uniqueSuffix);
   }
 });
 
-const upload = multer({ storage: storage });
-const bodyparser = require('body-parser');
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-// Product model
-const Product = mongoose.model('Product', {
-  description: String,
-  price: String,
-  image: String
-});
+const upload = multer({ storage });
 
 // Test route
 app.get("/", (req, res) => {
@@ -53,56 +46,56 @@ app.get("/", (req, res) => {
 });
 
 // Add product route
-app.post("/add-product", upload.single('image'), (req, res) => {
+app.post("/add-product", upload.single('image'), async (req, res) => {
   console.log("Received request to add product", req.body);
   console.log("Uploaded file:", req.file);
 
   if (!req.file) {
-    return res.status(400).send({ message: 'No file uploaded' });
+    return res.status(400).json({ message: 'No file uploaded' });
   }
 
-  const description = req.body.description;
-  const price = req.body.price;
+  const { description, price } = req.body;
   const image = req.file.path; // Get the image path from the uploaded file
 
-  const product = new Product({ description, price, image });
-
-  product.save()
-    .then(() => {
-      res.send({ message: 'Product saved successfully' });
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send({ message: 'Server error' });
-    });
+  try {
+    const product = new productModel({ description, price, image });
+    await product.save();
+    res.json({ message: 'Product saved successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
 });
 
 // Get products route
-app.get('/get-product', (req, res) => {
-  Product.find()
-    .then((result) => {
-      console.log(result, "product data");
-      res.send({ message: 'Success', products: result });
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send({ message: 'Server error' });
-    });
+app.get('/get-product', async (req, res) => {
+  try {
+    const products = await productModel.find(); // Use productModel directly
+    console.log(products, "product data");
+    res.json({ message: 'Success', products });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
 });
 
 // User routes
 app.use("/api/users", userRoute);
 
 // MongoDB connection
-mongoose
-  .connect(uri)
-  .then(() => console.log("MongoDB connection established"))
-  .catch((error) => console.log("MongoDB connection failed", error.message));
+(async () => {
+  try {
+    await mongoose.connect(uri);
+    console.log("MongoDB connection established");
+  } catch (error) {
+    console.log("MongoDB connection failed", error.message);
+  }
+})();
 
 // Socket.io connection
-io.on("connection", function(socket) {
+io.on("connection", (socket) => {
   console.log("Socket connected:", socket.id); // Log connection
-  socket.on("send-location", function(data) {
+  socket.on("send-location", (data) => {
     io.emit("receive-location", { id: socket.id, ...data });
   });
 });
