@@ -16,7 +16,7 @@ const uri = process.env.ATLAS_URI;
 
 // CORS configuration
 app.use(cors({
-  origin: 'http://localhost:5173', // Allow requests from this origin
+    origin: 'http://localhost:5173', // Allow requests from this origin
 }));
 
 app.use(express.json());
@@ -79,9 +79,6 @@ app.get('/get-product', async (req, res) => {
   }
 });
 
-// User routes
-app.use("/api/users", userRoute);
-
 // MongoDB connection
 (async () => {
   try {
@@ -102,5 +99,5 @@ io.on("connection", (socket) => {
 
 // Start server
 server.listen(port, () => {
-  console.log(`Server running on port: ${port}`);
+    console.log(`Server running on port: ${port}`);
 });
