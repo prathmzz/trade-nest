@@ -5,7 +5,8 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const multer = require('multer');
 const userRoute = require("./Routes/userRoute");
-
+const http = require("http"); // Added for socket.io
+const socketio = require("socket.io"); // Added for socket.io
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -18,21 +19,28 @@ app.use(cors({
 
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/js', express.static(path.join(__dirname, 'js'))); // Serve static files for JS
 
-  const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, 'uploads');
-    },
-    filename: function (req, file, cb) {
-      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-      cb(null, file.fieldname + '-' + uniqueSuffix);
-    }
-  });
+// Socket.io setup
+const server = http.createServer(app);
+const io = socketio(server);
 
-  const upload = multer({ storage: storage });
-  const bodyparser = require('body-parser')
-  app.use('/uploads',express.static(path.join(__dirname,'uploads')));
+// Multer configuration for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads');
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix);
+  }
+});
 
+const upload = multer({ storage: storage });
+const bodyparser = require('body-parser');
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Product model
 const Product = mongoose.model('Product', {
   description: String,
   price: String,
@@ -52,7 +60,7 @@ app.post("/add-product", upload.single('image'), (req, res) => {
   if (!req.file) {
     return res.status(400).send({ message: 'No file uploaded' });
   }
-  
+
   const description = req.body.description;
   const price = req.body.price;
   const image = req.file.path; // Get the image path from the uploaded file
@@ -94,7 +102,15 @@ mongoose
   .then(() => console.log("MongoDB connection established"))
   .catch((error) => console.log("MongoDB connection failed", error.message));
 
+// Socket.io connection
+io.on("connection", function(socket) {
+  console.log("Socket connected:", socket.id); // Log connection
+  socket.on("send-location", function(data) {
+    io.emit("receive-location", { id: socket.id, ...data });
+  });
+});
+
 // Start server
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server running on port: ${port}`);
 });

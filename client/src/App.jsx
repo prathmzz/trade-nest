@@ -8,6 +8,7 @@ import { Container }from "react-bootstrap"
 import Navbar from "./Components/Navbar";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
+import MapPage from "./Pages/MapPage";
 
 
 function App() {
@@ -23,7 +24,9 @@ function App() {
         <Route path="/addproduct" element={<AddProduct />} />
         <Route path="/register" element={user ? <Home/>: <Register/>} />
         <Route path="/login" element={user ? <Home/>: <Login/>} />
+        <Route path="/map" element={<MapPage />} />
         <Route path="*" element={<Navigate to="/" />} />
+
         
       </Routes>
       </Container>
