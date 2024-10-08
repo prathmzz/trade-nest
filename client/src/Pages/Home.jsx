@@ -8,44 +8,53 @@ import { AuthContext } from "../context/AuthContext";
 
 function HomePage() {
   const [products, setProducts] = useState([]);
-  const { user, logoutUser } = useContext(AuthContext);
-  const [selectedProduct, setSelectedProduct] = useState(null); 
+  const { user } = useContext(AuthContext);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const location = useLocation();
 
   const fetchProducts = async (query = "") => {
-    const url = query
-      ? `http://localhost:5000/search-product${query}`
-      : "http://localhost:5000/get-product";
+    setLoading(true); // Start loading
+    setError(null); // Reset error state
+
+    const url = query ? `http://localhost:5000/search-product${query}` : "http://localhost:5000/api/home/get-product";
+
     try {
-      const res = await axios.get(url, {
-        params: { email: user.email } // Include the user's email in the request
-      });
+      const res = await axios.get(url);
       console.log(res.data.products, "fetched products");
       if (res.data.products) {
         setProducts(res.data.products);
       }
     } catch (err) {
-      console.log(err);
-      alert("Server error");
+      console.error(err);
+      setError(err.response?.data?.message || "Server error"); // Update error state
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
   useEffect(() => {
-    fetchProducts(); // Fetch products on component mount
-  }, [location, user.email]); // Add user.email to the dependency array to refetch on email change
+   fetchProducts();
+
+  }, [location,user.email]);
 
   const handleViewProduct = (product) => {
-    setSelectedProduct(product); 
+    setSelectedProduct(product);
   };
 
   const closeProductView = () => {
-    setSelectedProduct(null); 
-  };
+    setSelectedProduct(null);
+  };  
 
   return (
     <div className="homepage">
       <div className={`product-container ${selectedProduct ? "blurred" : ""}`}>
-        {products && products.length > 0 ? (
+        {loading ? (
+          <p>Loading...</p> // Consider replacing with a spinner
+        ) : error ? (
+          <p>{error}</p>
+        ) : products.length > 0 ? (
           products.map((item) => (
             <ProductCard
               key={item._id}
