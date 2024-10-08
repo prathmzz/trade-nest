@@ -1,29 +1,27 @@
 import React, { useContext, useState } from 'react';
-import { Stack, Form, Button, Container, Card, Row, Col, Alert } from 'react-bootstrap'; // Import Bootstrap components
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
+import { Stack, Form, Button, Container, Card, Row, Col, Alert } from 'react-bootstrap'; 
+import { useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
-import { AuthContext } from '../context/AuthContext'; // Import AuthContext to access user data
+import { AuthContext } from '../context/AuthContext'; 
 
 function AddProduct() {
-  const { user } = useContext(AuthContext); // Get user from AuthContext
+  const { user } = useContext(AuthContext);
   const [newProduct, setNewProduct] = useState({
     title: '',
     description: '',
     price: '',
     location: '',
     category: '',
-
   });
 
   const [image, setImage] = useState(null);
-  const [error, setError] = useState(''); // For error messages
-  const [success, setSuccess] = useState(''); // For success messages
-  const navigate = useNavigate(); // Initialize useNavigate
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const navigate = useNavigate();
 
   const handleApi = async () => {
     const url = 'http://localhost:5000/add-product';
 
-    // Use FormData if you're uploading images
     const formData = new FormData();
     formData.append('title', newProduct.title);
     formData.append('description', newProduct.description);
@@ -34,14 +32,14 @@ function AddProduct() {
     formData.append('email', user.email);
 
     try {
-      const res = await axios.post(url, formData); // Send formData
+      const res = await axios.post(url, formData);
       console.log(res);
       setSuccess('Product added successfully!');
-      setError(''); // Clear error message if success
-      navigate('/'); // Redirect after successful submission
+      setError('');
+      navigate('/');
     } catch (err) {
       setError('Error adding product, please try again.');
-      setSuccess(''); // Clear success message if error occurs
+      setSuccess('');
       console.error(err);
     }
   };
@@ -53,19 +51,44 @@ function AddProduct() {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    // Simple validation for image file types
     if (file && file.type.match('image.*')) {
       setImage(file);
-      setError(''); // Clear error message if file is valid
+      setError('');
     } else {
       setError('Please upload a valid image file.');
-      setImage(null); // Clear image state if invalid
+      setImage(null);
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleApi(); // Call handleApi to send data to the server
+    handleApi();
+  };
+
+  // Function to get current location
+  const getCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        // Here, you can use a reverse geocoding API to convert lat/lng to address
+        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`)
+          .then(response => response.json())
+          .then(data => {
+            if (data && data.display_name) {
+              setNewProduct({ ...newProduct, location: data.display_name }); // Update the location state
+              setError('');
+            }
+          })
+          .catch(err => {
+            console.error(err);
+            setError('Unable to retrieve location. Please try again.');
+          });
+      }, () => {
+        setError('Unable to retrieve location. Please allow location access.');
+      });
+    } else {
+      setError('Geolocation is not supported by this browser.');
+    }
   };
 
   return (
@@ -73,13 +96,9 @@ function AddProduct() {
       <Card>
         <Card.Body>
           <Card.Title>Add New Product</Card.Title>
-
-          {/* Show success or error messages */}
           {success && <Alert variant="success">{success}</Alert>}
           {error && <Alert variant="danger">{error}</Alert>}
-
           <Form onSubmit={handleSubmit}>
-            {/* Product Title */}
             <Form.Group className="mb-3" controlId="productTitle">
               <Form.Label>Title</Form.Label>
               <Form.Control
@@ -90,8 +109,6 @@ function AddProduct() {
                 required
               />
             </Form.Group>
-
-            {/* Product Description */}
             <Form.Group className="mb-3" controlId="productDescription">
               <Form.Label>Description</Form.Label>
               <Form.Control
@@ -103,8 +120,6 @@ function AddProduct() {
                 required
               />
             </Form.Group>
-
-            {/* Price and Category side by side */}
             <Row className="mb-3">
               <Col md={6}>
                 <Form.Group controlId="productPrice">
@@ -146,8 +161,6 @@ function AddProduct() {
                 </Form.Group>
               </Col>
             </Row>
-
-            {/* Location and Upload Image side by side */}
             <Row className="mb-3">
               <Col md={6}>
                 <Form.Group controlId="productLocation">
@@ -159,6 +172,9 @@ function AddProduct() {
                     onChange={handleChange}
                     required
                   />
+                  <Button variant="secondary" onClick={getCurrentLocation} className="mt-2">
+                    Add Detect Location
+                  </Button>
                 </Form.Group>
               </Col>
               <Col md={6}>
@@ -172,7 +188,6 @@ function AddProduct() {
                 </Form.Group>
               </Col>
             </Row>
-
             <Button variant="primary" type="submit">
               Add Product
             </Button>

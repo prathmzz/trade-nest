@@ -41,6 +41,15 @@ export default function ViewProduct(props) {
     navigate('/map'); // Navigate to the map page
   };
 
+  const handleShareClick = () => {
+    // Create the WhatsApp share URL
+    const message = `Check out this product: ${product.name}\nPrice: ₹${product.price}\nLink: http://localhost:5000/${product.image}`;
+    const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+    
+    // Open the WhatsApp sharing link in a new tab
+    window.open(whatsappUrl, '_blank');
+  };
+
   return (
     <Card sx={{ width: { xs: 300, sm: 400, md: 500, lg: 1000 }, height: { xs: 500, sm: 600, md: 500 } }}>
       <CardHeader
@@ -68,7 +77,7 @@ export default function ViewProduct(props) {
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
         </IconButton>
-        <IconButton aria-label="share">
+        <IconButton aria-label="share" onClick={handleShareClick}>
           <ShareIcon />
         </IconButton>
 
