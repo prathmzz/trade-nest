@@ -3,6 +3,7 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import Home from "./Pages/Home"; // Import Home component
 import AddProduct from "./Components/Addproduct";
+import ViewListings from "./Pages/Viewlistings";
 import "bootstrap/dist/css/bootstrap.min.css"
 import { Container }from "react-bootstrap"
 import Navbar from "./Components/Navbar";
@@ -25,6 +26,7 @@ function App() {
         <Route path="/register" element={user ? <Home/>: <Register/>} />
         <Route path="/login" element={user ? <Home/>: <Login/>} />
         <Route path="/map" element={<MapPage />} />
+        <Route path="/viewlistings" element={<ViewListings />} />
         <Route path="*" element={<Navigate to="/" />} />
 
         

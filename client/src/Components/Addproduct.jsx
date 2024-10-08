@@ -1,30 +1,44 @@
-import React, { useState } from 'react';
-import { Stack, Form, Button, Container, Card } from 'react-bootstrap'; // Import Bootstrap components
+import React, { useState, useContext } from 'react';
+import { Stack, Form, Button, Container, Card, Alert } from 'react-bootstrap'; // Import Bootstrap components
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 import axios from 'axios';
+import { AuthContext } from '../context/AuthContext'; // Import AuthContext to access user data
 
 function AddProduct() {
+  const { user } = useContext(AuthContext); // Get user from AuthContext
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [image, setImage] = useState(null);
+  const [error, setError] = useState(''); // For error messages
+  const [success, setSuccess] = useState(''); // For success messages
   const navigate = useNavigate(); // Initialize useNavigate
 
-  const handleApi =() => {
+  const handleApi = async () => {
     const formData = new FormData();
-    formData.append('description',description) 
-    formData.append('price',price) 
-    formData.append('image',image) 
+    formData.append('description', description);
+    formData.append('price', price);
+    formData.append('image', image);
+    formData.append('email', user.email); // Include user's email in FormData
 
-    const url ='http://localhost:5000/add-product';
+    const url = 'http://localhost:5000/add-product';
 
-    axios.post(url, formData)
-    .then((res)=>{
-       console.log(res) 
-    })
-    .catch((err)=>{
-      console.log(err)
-    })
-  }
+    try {
+      const res = await axios.post(url, formData);
+      console.log(res);
+      setSuccess('Product added successfully!'); // Set success message
+      setError(''); // Clear any previous error messages
+      setDescription(''); // Clear the form
+      setPrice('');
+      setImage(null);
+      setTimeout(() => {
+        navigate('/'); // Redirect after 2 seconds
+      }, 2000);
+    } catch (err) {
+      console.log(err);
+      setError('Failed to add product. Please try again.'); // Set error message
+      setSuccess(''); // Clear any previous success messages
+    }
+  };
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
@@ -33,9 +47,6 @@ function AddProduct() {
   const handleSubmit = (e) => {
     e.preventDefault();
     handleApi(); // Call handleApi to send data to the server
-
-    // Redirect to the home page or another page
-    navigate('/');
   };
 
   return (
@@ -43,19 +54,23 @@ function AddProduct() {
       <Card>
         <Card.Body>
           <Card.Title>Add New Product</Card.Title>
+
+          {/* Show success or error messages */}
+          {success && <Alert variant="success">{success}</Alert>}
+          {error && <Alert variant="danger">{error}</Alert>}
+
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="productDescription">
               <Form.Label>Description</Form.Label>
               <Form.Control
                 as="textarea"
-                type="text"
                 value={description}
                 rows={3}
                 onChange={(e) => setDescription(e.target.value)}
                 required
               />
             </Form.Group>
-            
+
             <Form.Group className="mb-3" controlId="productPrice">
               <Form.Label>Price</Form.Label>
               <Form.Control
@@ -71,16 +86,12 @@ function AddProduct() {
               <Form.Control
                 type="file"
                 accept="image/*"
-                // onChange={(e)=>{
-                //   console.log(e.target.files)
-                // }}
                 onChange={handleImageChange}
-
+                required // Make image upload required
               />
             </Form.Group>
 
-            {/* <Button onClick={handleApi} variant="primary" type="submit" > */}
-            <Button variant="primary" type="submit" >
+            <Button variant="primary" type="submit">
               Add Product
             </Button>
           </Form>

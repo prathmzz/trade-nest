@@ -45,6 +45,7 @@ const ProductCard = ({ user, item, handleViewProduct }) => {
       />
       <p className="product-description">{item.description}</p>
       <p className="product-price">Price: ₹{item.price}</p>
+      <p className="product-email">Email: {item.email}</p>
       <div className="like-button" onClick={toggleFavorite} style={{ cursor: "pointer" }}>
         {isFavorite ? <FaHeart color="red" /> : <FaRegHeart />}
       </div>
