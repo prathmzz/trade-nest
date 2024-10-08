@@ -8,7 +8,8 @@ import http from "http";
 import { Server as SocketIO } from "socket.io"; // Use named import for Socket.io
 import productModel from "./Models/productModel.js"; // Ensure correct model path
 import userRoute from "./Routes/userRoute.js"; // Importing user routes
-import favouriteRoute from "./Routes/favouriteRoute.js"; // Importing favourite routes
+import homeRoutes from "./Routes/homeRoutes.js"; // Importing favourite routes
+
 
 dotenv.config(); // Load environment variables
 const app = express();
@@ -19,14 +20,14 @@ const uri = process.env.ATLAS_URI;
 app.use(cors({
     origin: 'http://localhost:5173', // Allow requests from this origin
 }));
-
 app.use(express.json());
 app.use('/uploads', express.static(path.join(path.resolve(), 'uploads'))); // Use path.resolve() for better compatibility
 
-// Use the userRoute for user-related API requests
+
 app.use("/api/users", userRoute);
-app.use("/api/users/favourites", favouriteRoute); 
-// Multer configuration for file uploads
+app.use("/api/home/", homeRoutes); 
+
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads');
@@ -77,16 +78,7 @@ app.post("/add-product", upload.single('image'), async (req, res) => {
 });
 
 // Get products route
-app.get('/get-product', async (req, res) => {
-  try {
-    const products = await productModel.find(); // Use productModel directly
-    console.log(products, "product data");
-    res.json({ message: 'Success', products });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server error' });
-  }
-});
+
 
 // MongoDB connection
 (async () => {

@@ -19,7 +19,7 @@ function HomePage() {
     setError(null); // Reset error state
     const url = query
       ? `http://localhost:5000/search-product${query}`
-      : "http://localhost:5000/get-product";
+      : "http://localhost:5000/api/home/get-product";
     
     axios
       .get(url)

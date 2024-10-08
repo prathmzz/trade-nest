@@ -16,7 +16,7 @@ const ProductCard = ({ user, item, handleViewProduct }) => {
   const toggleFavorite = async (e) => {
     e.stopPropagation(); // Prevent triggering handleViewProduct
     try {
-      const response = await fetch(`http://localhost:5000/api/users/favourites/${user._id}/favorites`, {
+      const response = await fetch(`http://localhost:5000/api/home/${user._id}/favorites`, {
         method: isFavorite ? "DELETE" : "POST",
         body: JSON.stringify({ productId: item._id }),
         headers: {
