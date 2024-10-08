@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa"; // Import heart icons
 import "./ProductCard.css";
+// import {ProductCard} from 'react-product-card';
 
-const ProductCard = ({ user, item, handleViewProduct }) => {
+const ProductCards = ({ user, item, handleViewProduct }) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
@@ -43,7 +44,8 @@ const ProductCard = ({ user, item, handleViewProduct }) => {
         alt={item.title ? item.title : "Product Image"} // Use title or default alt text
         className="product-image"
       />
-      <h3 className="product-title">
+      <h3 className="product-title">  
+
         {item.title ? item.title : "Untitled Product"} {/* Fallback for title */}
       </h3>
       <p className="product-description">{item.description}</p>
@@ -61,4 +63,4 @@ const ProductCard = ({ user, item, handleViewProduct }) => {
   );
 };
 
-export default ProductCard;
+export default ProductCards;
