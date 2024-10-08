@@ -18,7 +18,7 @@ const ProductCard = ({ user, item, handleViewProduct }) => {
     try {
       const response = await fetch(`http://localhost:5000/api/users/favourites/${user._id}/favorites`, {
         method: isFavorite ? "DELETE" : "POST",
-        body: JSON.stringify({ productId: item._id }), // Corrected from product._id to item._id
+        body: JSON.stringify({ productId: item._id }),
         headers: {
           "Content-Type": "application/json",
         },
@@ -40,15 +40,23 @@ const ProductCard = ({ user, item, handleViewProduct }) => {
     <div className="product-card" onClick={() => handleViewProduct(item)}>
       <img
         src={`http://localhost:5000/${item.image}`}
-        alt={item.name}
+        alt={item.title ? item.title : "Product Image"} // Use title or default alt text
         className="product-image"
       />
+      <h3 className="product-title">
+        {item.title ? item.title : "Untitled Product"} {/* Fallback for title */}
+      </h3>
       <p className="product-description">{item.description}</p>
+      {item.location && ( // Check if location exists
+        <p className="product-location">Location: {item.location}</p>
+      )}
+      {item.category && ( // Check if category exists
+        <p className="product-category">Category: {item.category}</p>
+      )}
       <p className="product-price">Price: ₹{item.price}</p>
       <div className="like-button" onClick={toggleFavorite} style={{ cursor: "pointer" }}>
         {isFavorite ? <FaHeart color="red" /> : <FaRegHeart />}
       </div>
-      
     </div>
   );
 };

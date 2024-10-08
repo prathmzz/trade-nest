@@ -1,15 +1,80 @@
-.product-card{
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-    cursor: pointer;
-    position: relative;
-}
-
-.like-button{
-    position: absolute;
-    border: 1px solid rgb(130, 130, 130);
-    top: 8%;
-    right: 12%;
+/* Container for the product cards */
+.product-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px; /* Space between the cards */
+    justify-content: space-between;
+    padding: 20px;
+    box-sizing: border-box; /* Ensures padding is included in the width calculations */
+  }
+  
+  /* Styling for individual product cards */
+  .product-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #fff;
+    width: calc(25% - 24px); /* Adjusted to account for the gap */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease;
+    box-sizing: border-box; /* Include padding in width calculations */
+    position: relative; /* Necessary for proper layout */
+  }
+  
+  .product-card:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Styling for the product image */
+  .product-image {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .product-image:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    background: #f1f3f5;
+  }
+  
+  /* Styling for the product title */
+  .product-title {
+    margin: 10px 0; /* Space around the title */
+    font-size: 18px; /* Increased font size for better visibility */
+    font-weight: bold; /* Bold title */
+    color: #333;
+  }
+  
+  /* Styling for the product description */
+  .product-description {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  /* Styling for the product location and category */
+  .product-location,
+  .product-category {
+    margin: 4px 0; /* Less margin for location and category */
+    font-size: 14px; /* Smaller font size */
+    color: #555; /* Lighter color for differentiation */
+  }
+  
+  /* Styling for the product price */
+  .product-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2ecc71;
+  }
+  
+  /* Adjusted like button styling */
+  .like-button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,10 +85,11 @@
     border: 1px solid rgba(128, 128, 128, 0.5);
     cursor: pointer;
     transition: background-color 0.3s ease;
-}
-
-.like-button:hover {
+    margin-top: 10px; /* Add margin to position it better */
+  }
+  
+  /* Like button hover effect */
+  .like-button:hover {
     background-color: rgba(86, 86, 86, 0.7); /* Darker on hover */
-    width: 40px; 
-    height: 40px;
-}
+  }
+  

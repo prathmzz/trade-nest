@@ -39,25 +39,35 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// Test route
 app.get("/", (req, res) => {
   res.send("Welcome to TradeNest");
 });
 
-// Add product route
 app.post("/add-product", upload.single('image'), async (req, res) => {
   console.log("Received request to add product", req.body);
   console.log("Uploaded file:", req.file);
 
+  // Check if the file is uploaded
   if (!req.file) {
     return res.status(400).json({ message: 'No file uploaded' });
   }
 
-  const { description, price } = req.body;
+  // Destructure the required fields from req.body
+  const { title, description, price, location, category } = req.body;
   const image = req.file.path; // Get the image path from the uploaded file
 
   try {
-    const product = new productModel({ description, price, image });
+    // Create a new product object with all the required fields
+    const product = new productModel({
+      title,
+      description,
+      price,
+      location,
+      category,
+      image,
+    });
+
+    // Save the product to the database
     await product.save();
     res.json({ message: 'Product saved successfully' });
   } catch (err) {
