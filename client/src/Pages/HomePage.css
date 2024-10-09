@@ -1,0 +1,17 @@
+.homepage {
+    display: flex; /* Use flexbox for layout */
+  }
+  
+  .product-container {
+    flex: 1; /* Allow the product container to take up remaining space */
+    margin-left: 250px; /* Add left margin to avoid overlapping with the sidebar */
+    padding: 20px; /* Padding for the product container */
+  }
+  
+  /* Optional blurred effect for product container when a product is selected */
+  .blurred {
+    filter: blur(5px); /* Apply a blur effect */
+  }
+  
+  /* Add additional styles as needed */
+  

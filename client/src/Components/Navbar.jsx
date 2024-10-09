@@ -4,10 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import './Navbar.css';
+import './Sidebar.css'; // Import sidebar CSS for consistent styling
+import Sidebar from './Sidebar'; // Import the Sidebar component
 
 const NavBar = () => {
   const { user, logoutUser } = useContext(AuthContext);
   const [searchQuery, setSearchQuery] = useState('');
+  const [sidebarVisible, setSidebarVisible] = useState(false); // State for sidebar visibility
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
@@ -16,67 +19,86 @@ const NavBar = () => {
     }
   };
 
+  const toggleSidebar = () => {
+    setSidebarVisible(!sidebarVisible); // Toggle the sidebar visibility
+  };
+
   return (
-    <nav className="navbar">
-      <div className="navbar-brand">
-        <h2>
-          <Link to="/" className="brand-link">
-            TradeNest
-          </Link>
-        </h2>
-      </div>
+    <>
+      <nav className="navbar">
+        {/* Hamburger Button */}
+        <button className="hamburger-btn" onClick={toggleSidebar}>
+          &#9776; {/* Unicode for hamburger icon */}
+        </button>
 
-      {user && (
-        <div className="welcome-text-container">
-          <span className="welcome-text">Welcome {user?.name}</span>
+        <div className="navbar-brand">
+          <h2>
+            <Link to="/" className="brand-link">
+              TradeNest
+            </Link>
+          </h2>
+        </div>
+
+        {user && (
+          <div className="welcome-text-container">
+            <span className="welcome-text">Welcome {user?.name}</span>
+          </div>
+        )}
+
+        {user && (
+          <div className="search-bar">
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleSearch}
+            />
+          </div>
+        )}
+
+        <div className="nav-links">
+          {user && (
+            <DropdownButton
+              id="dropdown-basic-button"
+              title="Products"
+              variant="secondary" // Change to secondary
+              className="nav-button"
+            >
+              <Dropdown.Item as={Link} to="/addproduct">
+                Add Product
+              </Dropdown.Item>
+              <Dropdown.Item as={Link} to="/viewlistings">
+                View Listings
+              </Dropdown.Item>
+            </DropdownButton>
+          )}
+          {user ? (
+            <Link onClick={() => logoutUser()} to="/login" className="nav-button logout-button">
+              Logout
+            </Link>
+          ) : (
+            <div className="auth-links">
+              <Link to="/login" className="nav-button">
+                Login
+              </Link>
+              <Link to="/register" className="nav-button">
+                Register
+              </Link>
+            </div>
+          )}
+        </div>
+      </nav>
+
+      {/* Sidebar Component */}
+      {sidebarVisible && (
+        <div className="sidebar-overlay" onClick={toggleSidebar}>
+          <div className="sidebar-container" onClick={(e) => e.stopPropagation()}>
+            <Sidebar />
+          </div>
         </div>
       )}
-
-      {user && (
-        <div className="search-bar">
-          <input
-            type="text"
-            placeholder="Search products..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={handleSearch}
-          />
-        </div>
-      )}
-
-<div className="nav-links">
-  {user && (
-    <DropdownButton
-      id="dropdown-basic-button"
-      title="Products"
-      variant="secondary" // Change to secondary
-      className="nav-button"
-    >
-      <Dropdown.Item as={Link} to="/addproduct">
-        Add Product
-      </Dropdown.Item>
-      <Dropdown.Item as={Link} to="/viewlistings">
-        View Listings
-      </Dropdown.Item>
-    </DropdownButton>
-  )}
-  {user ? (
-    <Link onClick={() => logoutUser()} to="/login" className="nav-button logout-button">
-      Logout
-    </Link>
-  ) : (
-    <div className="auth-links">
-      <Link to="/login" className="nav-button">
-        Login
-      </Link>
-      <Link to="/register" className="nav-button">
-        Register
-      </Link>
-    </div>
-  )}
-</div>
-
-    </nav>
+    </>
   );
 };
 

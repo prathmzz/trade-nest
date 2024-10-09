@@ -1,0 +1,22 @@
+.sidebar {
+    width: 250px; /* Fixed width for the sidebar */
+    background-color: #f8f9fa; /* Light background for contrast */
+    padding: 20px; /* Inner padding */
+    height: 100vh; /* Full height */
+    position: fixed; /* Fix sidebar on the left */
+    top: 0; /* Align to top */
+    left: 0; /* Align to left */
+    overflow-y: auto; /* Scroll if necessary */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding-top: 100px;
+  }
+  
+  /* Optional: Styling for headings and form elements */
+  .sidebar h5 {
+    margin-bottom: 1rem; /* Space below headings */
+  }
+  
+  .sidebar .mt-3 {
+    margin-top: 1rem; /* Margin for apply button */
+  }
+  

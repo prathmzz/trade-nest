@@ -5,6 +5,7 @@ import "./HomePage.css";
 import ViewProduct from "../Components/viewProduct"; 
 import ProductCard from "../Components/ProductCard"; 
 import { AuthContext } from "../context/AuthContext";
+import Sidebar from "../Components/Sidebar"; // Import the Sidebar component
 
 function HomePage() {
   const [products, setProducts] = useState([]);
@@ -35,9 +36,8 @@ function HomePage() {
   };
 
   useEffect(() => {
-   fetchProducts();
-
-  }, [location,user.email]);
+    fetchProducts();
+  }, [location, user.email]);
 
   const handleViewProduct = (product) => {
     setSelectedProduct(product);
@@ -45,10 +45,11 @@ function HomePage() {
 
   const closeProductView = () => {
     setSelectedProduct(null);
-  };  
+  };
 
   return (
     <div className="homepage">
+      {/* <Sidebar /> Render the Sidebar component */}
       <div className={`product-container ${selectedProduct ? "blurred" : ""}`}>
         {loading ? (
           <p>Loading...</p> // Consider replacing with a spinner

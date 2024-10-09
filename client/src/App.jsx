@@ -13,6 +13,7 @@ import MapPage from "./Pages/MapPage";
 import Chat from "./Pages/Chat";
 
 
+
 function App() {
   const {user} = useContext(AuthContext)
   return (

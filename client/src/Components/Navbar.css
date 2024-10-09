@@ -95,4 +95,48 @@
 .logout-button:hover {
   color: #dc3545; /* Change color of Logout text on hover */
 }
+.hamburger-btn {
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  margin-right: 15px; /* Add spacing between hamburger and brand */
+}
+@media (max-width: 768px) {
+  .nav-links {
+    display: none; /* Hide nav links on mobile */
+  }
+}
+/* Navbar styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #343a40; /* Dark background */
+  position: relative; /* Keep the navbar positioned relative to the sidebar */
+  z-index: 1000; /* Ensure navbar is above the sidebar */
+}
 
+/* Sidebar styles */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: flex-start;
+  z-index: 999; /* Ensure the sidebar is below the navbar */
+}
+
+.sidebar-container {
+  width: 250px;
+  background-color: white;
+  padding: 20px;
+  height: 100%;
+  overflow-y: auto;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+}
