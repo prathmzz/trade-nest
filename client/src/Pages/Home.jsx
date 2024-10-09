@@ -15,14 +15,12 @@ function HomePage() {
   const [error, setError] = useState(null);
   const location = useLocation();
 
-  const fetchProducts = async (query = "") => {
+  const fetchProducts = async (filters = {}) => {
     setLoading(true); // Start loading
     setError(null); // Reset error state
 
-    const url = query ? `http://localhost:5000/search-product${query}` : "http://localhost:5000/api/home/get-product";
-
     try {
-      const res = await axios.get(url);
+      const res = await axios.post("http://localhost:5000/api/home/get-product", filters);
       console.log(res.data.products, "fetched products");
       if (res.data.products) {
         setProducts(res.data.products);
@@ -36,7 +34,7 @@ function HomePage() {
   };
 
   useEffect(() => {
-    fetchProducts();
+    fetchProducts(); // Fetch all products initially with no filters
   }, [location, user.email]);
 
   const handleViewProduct = (product) => {
@@ -49,7 +47,9 @@ function HomePage() {
 
   return (
     <div className="homepage">
-      {/* <Sidebar /> Render the Sidebar component */}
+      {/* Render the Sidebar and pass setProducts to update the product list */}
+      <Sidebar setProducts={setProducts} />
+
       <div className={`product-container ${selectedProduct ? "blurred" : ""}`}>
         {loading ? (
           <p>Loading...</p> // Consider replacing with a spinner

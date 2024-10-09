@@ -1,12 +1,28 @@
 import React, { useState } from "react";
 import { Form, Button, Accordion } from "react-bootstrap";
 import './Sidebar.css'; // Ensure you have this CSS file for styling
+import axios from "axios"; // Import Axios
 
-const Sidebar = () => {
+const Sidebar = ({ setProducts }) => {
+  const categories = [
+    "Online Courses",
+    "E-books",
+    "Cycles",
+    "Home Appliances",
+    "Books",
+    "Sports and Fitness",
+    "Furniture",
+    "Personal Items",
+    "Stationary",
+    "Electronics and Accessories",
+    "Hostel and PG Supplies",
+    "Study Materials",
+    "Others"
+  ];
+
   const [filters, setFilters] = useState({
     category: [],
     priceRange: "",
-    brand: [],
   });
 
   const handleCategoryChange = (e) => {
@@ -28,60 +44,40 @@ const Sidebar = () => {
     setFilters({ ...filters, priceRange: e.target.value });
   };
 
-  const handleBrandChange = (e) => {
-    const { value, checked } = e.target;
-    if (checked) {
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        brand: [...prevFilters.brand, value],
-      }));
-    } else {
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        brand: prevFilters.brand.filter((item) => item !== value),
-      }));
-    }
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Applied Filters:", filters);
-    // You can now use filters to fetch filtered products
+    
+    const postFilters = filters.category.length || filters.priceRange ? filters : {}; // Send empty if no filters
+    try {
+      const response = await axios.post('http://localhost:5000/api/home/get-product', postFilters);
+      console.log('Filtered products:', response.data); 
+      setProducts(response.data.products); // Update products based on filtered data
+    } catch (error) {
+      console.error('Error filtering products:', error); 
+    }
   };
 
   return (
     <div className="sidebar">
-     
       <Form onSubmit={handleSubmit}>
-        
-        {/* <Form.Group controlId="searchBar">
-          <Form.Label>Search</Form.Label>
-          <Form.Control type="text" placeholder="Search for products" />
-        </Form.Group> */}
 
         {/* Category Filter */}
         <Accordion defaultActiveKey="0" className="mt-3">
           <Accordion.Item eventKey="0">
             <Accordion.Header>Categories</Accordion.Header>
-            <Accordion.Body>    
-              <Form.Check
-                type="checkbox"
-                label="Electronics"
-                value="Electronics"
-                onChange={handleCategoryChange}
-              />
-              <Form.Check
-                type="checkbox"
-                label="Clothing"
-                value="Clothing"
-                onChange={handleCategoryChange}
-              />
-              <Form.Check
-                type="checkbox"
-                label="Books"
-                value="Books"
-                onChange={handleCategoryChange}
-              />
+            <Accordion.Body>
+              {categories.map((category, index) => (
+                <div key={index}>
+                  <Form.Check
+                    type="checkbox"
+                    label={category}
+                    value={category}
+                    onChange={handleCategoryChange}
+                  />
+                  <div className="filter-divider"></div> {/* Horizontal line */}
+                </div>
+              ))}
             </Accordion.Body>
           </Accordion.Item>
 
@@ -96,6 +92,7 @@ const Sidebar = () => {
                 value="$0-$50"
                 onChange={handlePriceChange}
               />
+              <div className="filter-divider"></div>
               <Form.Check
                 type="radio"
                 name="priceRange"
@@ -103,6 +100,7 @@ const Sidebar = () => {
                 value="$50-$100"
                 onChange={handlePriceChange}
               />
+              <div className="filter-divider"></div>
               <Form.Check
                 type="radio"
                 name="priceRange"
@@ -113,30 +111,6 @@ const Sidebar = () => {
             </Accordion.Body>
           </Accordion.Item>
 
-          {/* Brand Filter */}
-          <Accordion.Item eventKey="2">
-            <Accordion.Header>Brands</Accordion.Header>
-            <Accordion.Body>
-              <Form.Check
-                type="checkbox"
-                label="Apple"
-                value="Apple"
-                onChange={handleBrandChange}
-              />
-              <Form.Check
-                type="checkbox"
-                label="Samsung"
-                value="Samsung"
-                onChange={handleBrandChange}
-              />
-              <Form.Check
-                type="checkbox"
-                label="Sony"
-                value="Sony"
-                onChange={handleBrandChange}
-              />
-            </Accordion.Body>
-          </Accordion.Item>
         </Accordion>
 
         {/* Apply Button */}

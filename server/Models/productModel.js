@@ -24,7 +24,8 @@
             category: {
               type: String,
               required: true,
-              trim: true
+              trim: true,
+              set: (value) => value.toLowerCase(), 
             },
             location: {
               type: String,
