@@ -1,5 +1,6 @@
 /* Navbar container */
 .navbar {
+  background-image: linear-gradient(to right, #a8caba 0%, #5d4157 100%);
   display: flex;
   justify-content: space-between;
   align-items: center;
