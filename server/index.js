@@ -54,7 +54,7 @@ app.post("/add-product", upload.single('image'), async (req, res) => {
 
   const { title, description, price, location, category } = req.body;
   // Save image as a relative path
-  const image = req.file.path.replace(/\\/g, '/');  // Make sure the path is URL-friendly
+  const image = req.file.path.replace(/\\/g, '/');  // if image is not visble check this ****
   const email = req.body.email;
 
   try {

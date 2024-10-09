@@ -26,18 +26,19 @@ const Login = () => {
   return (
     <>
       {/* Add GoogleOAuthProvider to wrap your component */}
-      <GoogleOAuthProvider clientId="93647705340-bko11uahe7ni12t51i2skassuaemqvad.apps.googleusercontent.com">
+      <GoogleOAuthProvider clientId="340332118319-acgt2fhhn525e9f7hfqj6pqccg548scd.apps.googleusercontent.com">
         <Form onSubmit={loginUser}>
           <Row
             style={{
               height: "100vh",
               justifyContent: "center",
-              paddingTop: "10%",
+              alignItems: "center", // Center vertically
+              padding: "20px", // Add padding for better spacing
             }}
           >
-            <Col xs={6}>
-              <Stack gap={3}>
-                <h2>Login</h2>
+            <Col xs={12} md={6} lg={4}> {/* Adjusted the column size for responsiveness */}
+              <Stack gap={3} className="border p-4 rounded shadow"> {/* Added border, padding, and shadow for better visuals */}
+                <h2 className="text-center">Login</h2> {/* Centered the title */}
 
                 <Form.Control
                   type="email"
@@ -45,7 +46,7 @@ const Login = () => {
                   onChange={(e) =>
                     updateLoginInfo({ ...loginInfo, email: e.target.value })
                   }
-                ></Form.Control>
+                />
                 <Form.Control
                   type="password"
                   placeholder="Enter your Password"
@@ -55,7 +56,7 @@ const Login = () => {
                       password: e.target.value,
                     })
                   }
-                ></Form.Control>
+                />
 
                 <Button variant="primary" type="submit">
                   {isLoginLoading ? "Getting you in.." : "Login"}
@@ -64,13 +65,19 @@ const Login = () => {
                 {/* Google Login Button */}
                 <div style={{ textAlign: "center" }}>
                   <GoogleLogin
-                    onSuccess={handleGoogleSuccess}
-                    onError={handleGoogleFailure}
+                    onSuccess={(credentialResponse) => {
+                      console.log(credentialResponse);
+                      handleGoogleSuccess(credentialResponse);
+                    }}
+                    onError={() => {
+                      console.log('Login Failed');
+                      handleGoogleFailure();
+                    }}
                   />
                 </div>
 
                 {loginError && (
-                  <Alert variant="danger">
+                  <Alert variant="danger" className="text-center">
                     <p>{loginError?.message}</p>
                   </Alert>
                 )}
