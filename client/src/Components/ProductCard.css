@@ -23,6 +23,9 @@
     transition: transform 0.3s ease;
     box-sizing: border-box; /* Include padding in width calculations */
     position: relative; /* Necessary for proper layout */
+    box-shadow: 10px 11px 22px 0px rgba(75,39,106,0.75);
+-webkit-box-shadow: 10px 11px 22px 0px rgba(75,39,106,0.75);
+-moz-box-shadow: 10px 11px 22px 0px rgba(75,39,106,0.75);
   }
   
   .product-card:hover {
