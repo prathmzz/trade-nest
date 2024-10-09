@@ -10,6 +10,7 @@ import Navbar from "./Components/Navbar";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 import MapPage from "./Pages/MapPage";
+import Chat from "./Pages/Chat";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/register" element={user ? <Home/>: <Register/>} />
         <Route path="/login" element={user ? <Home/>: <Login/>} />
         <Route path="/map" element={<MapPage />} />
+        <Route path="/chat" element={<Chat/>}></Route>
         <Route path="/viewlistings" element={<ViewListings />} />
         <Route path="*" element={<Navigate to="/" />} />
 
