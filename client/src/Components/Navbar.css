@@ -1,12 +1,13 @@
 /* Navbar container */
 .navbar {
-  background-image: linear-gradient(to right, #a8caba 0%, #5d4157 100%);
+  /* background-image: linear-gradient(to right, #a8caba 0%, #5d4157 100%); */
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: #1f1f1f; 
   padding: 10px 20px;
   position: relative; /* Needed to center the welcome message */
+  border-bottom: #252525;
 }
 
 /* Brand and welcome message */

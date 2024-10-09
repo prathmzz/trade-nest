@@ -30,13 +30,13 @@
   
   /* Input and Textarea styles */
   .form-control {
-    background-color: white; /* Darker background for input fields */
+    background-color: #343a40; /* Darker background for input fields */
     color: #ffffff; /* White text color */
     border: 1px solid #3a1078; /* Custom border color */
   }
   
   .form-control:focus {
-    background-color: white; /* Keep same color on focus */
+    background-color: #343a40; /* Keep same color on focus */
     border-color: #3a1078; /* Border color on focus */
     box-shadow: none; /* Remove default Bootstrap shadow */
   }
