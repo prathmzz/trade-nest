@@ -15,8 +15,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import MessageIcon from '@mui/icons-material/Message'; 
-
+import MessageIcon from '@mui/icons-material/Message';
 import { useNavigate } from 'react-router-dom';
 
 const ExpandMore = styled((props) => {
@@ -33,14 +32,14 @@ const ExpandMore = styled((props) => {
 export default function ViewProduct(props) {
   const { product } = props;
   const [expanded, setExpanded] = React.useState(false);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
   const handleLocationClick = () => {
-    navigate('/map'); 
+    navigate('/map');
   };
 
   const handleShareClick = () => {
@@ -54,7 +53,7 @@ export default function ViewProduct(props) {
   };
 
   return (
-    <Card sx={{ width: { xs: 300, sm: 400, md: 500, lg: 1000 }, height: { xs: 500, sm: 600, md: 500 } }}>
+    <Card sx={{ width: { xs: 300, sm: 400, md: 500, lg: 1000 }, height: { xs: 500, sm: 600, md: 600 } }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -80,6 +79,16 @@ export default function ViewProduct(props) {
         <Typography variant="body2" color="text.secondary">
           {product.description}
         </Typography>
+        {product.location && (
+          <Typography variant="body2" color="text.secondary" sx={{ marginTop: 1 }}>
+            <LocationOnIcon fontSize="small" /> Location: {product.location}
+          </Typography>
+        )}
+        {product.category && (
+          <Typography variant="body2" color="text.secondary" sx={{ marginTop: 1 }}>
+            Category: {product.category}
+          </Typography>
+        )}
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">

@@ -43,6 +43,7 @@ app.get("/", (req, res) => {
 });
 
 // Add product route
+// Add product route
 app.post("/add-product", upload.single('image'), async (req, res) => {
   console.log("Received request to add product", req.body);
   console.log("Uploaded file:", req.file);
@@ -52,7 +53,8 @@ app.post("/add-product", upload.single('image'), async (req, res) => {
   }
 
   const { title, description, price, location, category } = req.body;
-  const image = `http://localhost:5000/${req.file.path.replace(/\\/g, '/')}`;  // Use full URL
+  // Save image as a relative path
+  const image = req.file.path.replace(/\\/g, '/');  // Make sure the path is URL-friendly
   const email = req.body.email;
 
   try {
@@ -62,7 +64,7 @@ app.post("/add-product", upload.single('image'), async (req, res) => {
       price,
       location,
       category,
-      image,
+      image,  // This will now be relative path like 'uploads/image-1728483564328-997477406'
       email
     });
 

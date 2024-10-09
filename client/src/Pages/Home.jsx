@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import "./HomePage.css";
-import ViewProduct from "../Components/ViewProduct"; 
+import ViewProduct from "../Components/viewProduct"; 
 import ProductCard from "../Components/ProductCard"; 
 import { AuthContext } from "../context/AuthContext";
 
