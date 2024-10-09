@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 
 const ViewListings = () => {
@@ -7,30 +6,31 @@ const ViewListings = () => {
     const [error, setError] = useState(null);
     const [userEmail, setUserEmail] = useState("");
 
+    // Get user email from local storage
     const getUserEmail = () => {
         const userToken = localStorage.getItem('User');
         if (userToken) {
             const parsedUserEmail = JSON.parse(userToken);
             setUserEmail(parsedUserEmail.email);
+        } else {
+            console.log('No token found');
         }
-        console.log('No token found');
-        return null;
     };
 
     useEffect(() => {
-        getUserEmail(); // Call this first to set the email
+        getUserEmail();
     }, []);
 
     useEffect(() => {
         if (userEmail) {
-            console.log('User Email after setting:', userEmail); // Log the email after setting
+            console.log('User Email after setting:', userEmail);
             fetchListings(userEmail);
         } else {
             setLoading(false);
         }
-    }, [userEmail]); // Trigger the effect when userEmail changes
-    
+    }, [userEmail]);
 
+    // Fetch listings from the backend
     const fetchListings = async (email) => {
         try {
             const response = await fetch(`http://localhost:5000/get-listings?email=${email}`);
@@ -38,8 +38,14 @@ const ViewListings = () => {
                 throw new Error('Failed to fetch listings: ' + response.statusText);
             }
             const data = await response.json();
-            console.log('Fetched Listings:', data.listings);
-            setListings(data.listings);
+
+            // Construct the full image URL for each listing
+            const updatedListings = data.listings.map(listing => ({
+                ...listing,
+                image: `http://localhost:5000/${listing.image}` // Ensure correct path to image
+            }));
+
+            setListings(updatedListings);
         } catch (err) {
             console.error("Fetch error:", err);
             setError(err.message);
@@ -69,8 +75,12 @@ const ViewListings = () => {
                     {listings.map((listing) => (
                         <li key={listing._id} style={{ marginBottom: '20px' }}>
                             <h2>{listing.description}</h2>
-                            <img src={listing.image} alt={listing.description} style={{ maxWidth: '200px' }} />
-                            <p>Price: ${listing.price}</p>
+                            <img 
+                                src={listing.image} // Use the updated image path directly
+                                alt={listing.description} 
+                                style={{ maxWidth: '200px', borderRadius: '10px' }} 
+                            />
+                            <p>Price: ₹{listing.price}</p>
                             <p>Added on: {new Date(listing.createdAt).toLocaleDateString()}</p>
                         </li>
                     ))}
@@ -80,7 +90,6 @@ const ViewListings = () => {
             )}
         </div>
     );
-}
+};
 
 export default ViewListings;
-    

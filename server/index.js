@@ -22,6 +22,7 @@ app.use(cors({
 app.use(express.json());
 app.use('/uploads', express.static(path.join(path.resolve(), 'uploads')));
 
+
 app.use("/api/users", userRoute);
 app.use("/api/home/", homeRoutes);
 
@@ -47,15 +48,12 @@ app.post("/add-product", upload.single('image'), async (req, res) => {
   console.log("Uploaded file:", req.file);
 
   if (!req.file) {
-      return res.status(400).json({ message: 'No file uploaded' });
+    return res.status(400).json({ message: 'No file uploaded' });
   }
 
   const { title, description, price, location, category } = req.body;
-  const image = req.file.path;
-  const email = req.body.email; // Ensure email is included
-  console.log("Request body:", req.body);
-
-
+  const image = `http://localhost:5000/${req.file.path.replace(/\\/g, '/')}`;  // Use full URL
+  const email = req.body.email;
 
   try {
     const product = new productModel({
@@ -69,12 +67,13 @@ app.post("/add-product", upload.single('image'), async (req, res) => {
     });
 
     await product.save();
-    res.json({ message: 'Product saved successfully' });
+    res.json({ message: 'Product saved successfully', product });
   } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: 'Server error' });
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
   }
 });
+
 
 // Get products route
 app.get('/get-product', async (req, res) => {
@@ -100,13 +99,15 @@ app.post("/add-listing", upload.single('image'), async (req, res) => {
   }
 
   const { description, price, email } = req.body;
-  const image = req.file.path;
+  // Store image path in a URL-friendly format
+  const image = `/uploads/${req.file.filename}`;
+
 
   try {
     const listing = new listingModel({ description, price, image, email });
     await listing.save();
     console.log("Listing saved:", listing);
-    res.json({ message: 'Listing saved successfully' });
+    res.json({ message: 'Listing saved successfully', listing });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server error' });

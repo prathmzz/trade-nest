@@ -181,7 +181,7 @@ function AddProduct() {
                 <Form.Group controlId="productImage">
                   <Form.Label>Upload Image</Form.Label>
                   <Form.Control
-                    type="file"
+                    type="file" 
                     accept="image/*"
                     onChange={handleImageChange}
                   />
