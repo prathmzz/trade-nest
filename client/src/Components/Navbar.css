@@ -4,7 +4,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #343a40; /* Dark background */
+  background-color: #1f1f1f; 
   padding: 10px 20px;
   position: relative; /* Needed to center the welcome message */
 }
@@ -23,8 +23,9 @@
   position: absolute; /* Absolutely position the welcome text */
   left: 50%;
   transform: translateX(-50%); /* Center it horizontally */
-  color: #ffc107;
-  font-size: 1.2rem;
+  color: white;
+  
+  font-size: 1.5rem;
 }
 
 /* Search bar */
@@ -43,7 +44,7 @@
 
 .nav-button {
   color: white;
-  background-color: #007bff;
+  background-color: #3a1078;
   padding: 10px 15px;
   text-decoration: none;
   border-radius: 4px;
@@ -77,21 +78,27 @@
 
 /* Nav buttons */
 .nav-button {
-  color: white; /* Keep the text color visible */
+  color: white; /* Change text color to your desired color */
   padding: 10px 10px;
   text-decoration: none;
   margin-right: 20px; /* Spacing between buttons */
-  transition: color 0.3s;
+  transition: color 0.3s, background-color 0.3s; /* Smooth transition for color and background */
   background-color: transparent; /* Remove background color */
   border: none; /* Remove any border */
   margin-left: 10px;
 }
 
-/* Hover effects for all buttons */
+/* Change color on hover */
 .nav-button:hover {
-  color: #007bff; /* Change text color on hover */
+  color: #ffffff; /* Change text color on hover */
+   /* Set a background color on hover */
 }
 
+/* Change color when the button is active or focused */
+.nav-button:focus, .nav-button:active {
+  color: #ffffff; /* Change text color when active or focused */
+  background-color: #3a1078; /* Set a background color when active or focused */
+}
 /* Logout button */
 .logout-button:hover {
   color: #dc3545; /* Change color of Logout text on hover */
@@ -115,7 +122,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #343a40; /* Dark background */
+  
   position: relative; /* Keep the navbar positioned relative to the sidebar */
   z-index: 1000; /* Ensure navbar is above the sidebar */
 }

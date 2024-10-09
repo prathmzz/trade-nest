@@ -5,7 +5,7 @@ import "./ProductCard.css";
 
 const ProductCards = ({ user, item, handleViewProduct }) => {
   const [isFavorite, setIsFavorite] = useState(false);
-
+  const [expanded, setExpanded] = useState(false);
   useEffect(() => {
     if (user && user.favorites && user.favorites.includes(item._id)) {
       setIsFavorite(true);
@@ -36,7 +36,9 @@ const ProductCards = ({ user, item, handleViewProduct }) => {
       alert("An error occurred. Please try again.");
     }
   };
-
+  const toggleExpand = () => {
+    setExpanded(!expanded);
+  };
   return (
     <div className="product-card" onClick={() => handleViewProduct(item)}>
       <img
@@ -48,7 +50,14 @@ const ProductCards = ({ user, item, handleViewProduct }) => {
 
         {item.title ? item.title : "Untitled Product"} {/* Fallback for title */}
       </h3>
-      <p className="product-description">{item.description}</p>
+      <p className="product-description">
+      {expanded ? item.description : `${item.description.slice(0, 100)}... `}
+        {!expanded && (
+          <span className="read-more" onClick={(e) => { e.stopPropagation(); toggleExpand(); }}>
+            Read More
+          </span>
+        )}
+      </p>
       {item.location && ( // Check if location exists
         <p className="product-location">Location: {item.location}</p>
       )}

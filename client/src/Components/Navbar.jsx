@@ -7,11 +7,26 @@ import './Navbar.css';
 import './Sidebar.css'; // Import sidebar CSS for consistent styling
 import Sidebar from './Sidebar'; // Import the Sidebar component
 
-const NavBar = () => {
+const NavBar = ({ setProducts, allProducts }) => {
   const { user, logoutUser } = useContext(AuthContext);
   const [searchQuery, setSearchQuery] = useState('');
   const [sidebarVisible, setSidebarVisible] = useState(false); // State for sidebar visibility
   const navigate = useNavigate();
+
+  const handleSearchChange = (e) => {
+    const { value } = e.target;
+    setSearchQuery(value);
+    
+    // Filter products based on the search query
+    if (value.trim() === "") {
+      setProducts(allProducts); // Reset to all products if query is empty
+    } else {
+      const filtered = allProducts.filter((product) =>
+        product.title.toLowerCase().includes(value.toLowerCase())
+      );
+      setProducts(filtered);
+    }
+  };
 
   const handleSearch = (e) => {
     if (e.key === 'Enter' && searchQuery.trim() !== '') {
@@ -51,7 +66,7 @@ const NavBar = () => {
               type="text"
               placeholder="Search products..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={handleSearchChange}
               onKeyDown={handleSearch}
             />
           </div>
@@ -62,7 +77,7 @@ const NavBar = () => {
             <DropdownButton
               id="dropdown-basic-button"
               title="Products"
-              variant="secondary" // Change to secondary
+               // Change to secondary
               className="nav-button"
             >
               <Dropdown.Item as={Link} to="/addproduct">

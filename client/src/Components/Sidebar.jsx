@@ -28,20 +28,36 @@ const Sidebar = ({ setProducts }) => {
   const handleCategoryChange = (e) => {
     const { value, checked } = e.target;
     if (checked) {
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        category: [...prevFilters.category, value],
-      }));
+      setFilters((prevFilters) => {
+        const newFilters = {
+          ...prevFilters,
+          category: [...prevFilters.category, value],
+        };
+        console.log('Updated Category Filters:', newFilters); // Log updated filters
+        return newFilters;
+      });
     } else {
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        category: prevFilters.category.filter((item) => item !== value),
-      }));
+      setFilters((prevFilters) => {
+        const newFilters = {
+          ...prevFilters,
+          category: prevFilters.category.filter((item) => item !== value),
+        };
+        console.log('Updated Category Filters:', newFilters); // Log updated filters
+        return newFilters;
+      });
     }
   };
-
+  
   const handlePriceChange = (e) => {
-    setFilters({ ...filters, priceRange: e.target.value });
+    const { value } = e.target;  // Get the selected price range value
+    setFilters((prevFilters) => {
+      const newFilters = {
+        ...prevFilters,
+        [name]: Number(value),
+      };
+      console.log('Updated Price Range Filter:', newFilters); // Log updated filters
+      return newFilters;
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -49,12 +65,15 @@ const Sidebar = ({ setProducts }) => {
     console.log("Applied Filters:", filters);
     
     const postFilters = filters.category.length || filters.priceRange ? filters : {}; // Send empty if no filters
+    console.log("Post Filters:", postFilters); // Log the filters being sent
+    
     try {
       const response = await axios.post('http://localhost:5000/api/home/get-product', postFilters);
       console.log('Filtered products:', response.data); 
       setProducts(response.data.products); // Update products based on filtered data
     } catch (error) {
       console.error('Error filtering products:', error); 
+      alert('Error applying filters. Please try again.'); // Notify user on error
     }
   };
 
@@ -63,13 +82,14 @@ const Sidebar = ({ setProducts }) => {
       <Form onSubmit={handleSubmit}>
 
         {/* Category Filter */}
-        <Accordion defaultActiveKey="0" className="mt-3">
+        <Accordion defaultActiveKey="0" className="mt-3 custom-accordian">
           <Accordion.Item eventKey="0">
-            <Accordion.Header>Categories</Accordion.Header>
-            <Accordion.Body>
+            <Accordion.Header className="custom-accordian" >Categories</Accordion.Header>
+            <Accordion.Body className="custom-accordian">
               {categories.map((category, index) => (
                 <div key={index}>
                   <Form.Check
+                  className="custom-accordian"
                     type="checkbox"
                     label={category}
                     value={category}
@@ -85,36 +105,33 @@ const Sidebar = ({ setProducts }) => {
           <Accordion.Item eventKey="1">
             <Accordion.Header>Price Range</Accordion.Header>
             <Accordion.Body>
-              <Form.Check
-                type="radio"
-                name="priceRange"
-                label="$0 - $50"
-                value="$0-$50"
-                onChange={handlePriceChange}
-              />
-              <div className="filter-divider"></div>
-              <Form.Check
-                type="radio"
-                name="priceRange"
-                label="$50 - $100"
-                value="$50-$100"
-                onChange={handlePriceChange}
-              />
-              <div className="filter-divider"></div>
-              <Form.Check
-                type="radio"
-                name="priceRange"
-                label="$100 - $200"
-                value="$100-$200"
-                onChange={handlePriceChange}
-              />
+            <div>
+                <Form.Label>Min Price: Rs. 0{filters.minPrice}</Form.Label>
+                <Form.Range
+                  name="minPrice"
+                  min="0"
+                  max={filters.maxPrice} // Max price can be adjusted as needed
+                  value={filters.minPrice}
+                  onChange={handlePriceChange}
+                />
+              </div>
+              <div>
+                <Form.Label>Max Price: Rs.1000{filters.maxPrice}</Form.Label>
+                <Form.Range
+                  name="maxPrice"
+                  min={filters.minPrice} // Min price can’t go below current min
+                  max="10000" // You can set this dynamically based on your product data
+                  value={filters.maxPrice}
+                  onChange={handlePriceChange}
+                />
+              </div>
             </Accordion.Body>
           </Accordion.Item>
 
         </Accordion>
 
         {/* Apply Button */}
-        <Button className="mt-3" variant="primary" type="submit">
+        <Button className="mt-3" type="submit">
           Apply Filters
         </Button>
       </Form>

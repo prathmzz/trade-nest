@@ -1,43 +1,90 @@
+/* Sidebar styling */
 .sidebar {
-    width: 250px; /* Fixed width for the sidebar */
-    background-color: #f8f9fa; /* Light background for contrast */
-    padding: 20px; /* Inner padding */
-    height: 100vh; /* Full height */
-    position: fixed; /* Fix sidebar on the left */
-    top: 0; /* Align to top */
-    left: 0; /* Align to left */
-    overflow-y: auto; /* Scroll if necessary */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    padding-top: 100px;
-  }
-  
-  /* Optional: Styling for headings and form elements */
-  .sidebar h5 {
-    margin-bottom: 1rem; /* Space below headings */
-  }
-  
-  .sidebar .mt-3 {
-    margin-top: 1rem; /* Margin for apply button */
-  }
-  
-  /* Sidebar.css */
+  width: 250px; /* Fixed width for the sidebar */
+  background-color: #252525; /* Set background color to #252525 */
+  padding: 20px; /* Inner padding */
+  height: 100vh; /* Full height */
+  position: fixed; /* Fix sidebar on the left */
+  top: 0; /* Align to top */
+  left: 0; /* Align to left */
+  overflow-y: auto; /* Scroll if necessary */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding-top: 80px; /* Reduced padding for top alignment */
+  transition: background-color 0.3s ease; /* Smooth background transition */
+}
 
+.custom-accordion {
+  background-color: #252525; /* Accordion background color */
+  border-radius: 0.5rem; /* Optional: Add some border radius for smoother edges */
+}
+
+/* Optional: Styling for headings and form elements */
+.sidebar h5 {
+  margin-bottom: 1rem; /* Space below headings */
+  font-size: 18px; /* Increased font size for headings */
+  color: #ffffff; /* Change text color for better contrast */
+}
+
+/* Sidebar button margin */
+.sidebar .mt-3 {
+  margin-top: 1rem; /* Margin for apply button */
+}
+
+/* Checkbox input styling */
 .sidebar .form-check-input {
-  background-color: #343a40; /* Darker checkbox */
-  border-color: #343a40;
+  background-color: #3a1078; /* Set checkbox background color */
+  border-color: #3a1078; /* Set checkbox border color */
+  transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transition */
 }
 
 .sidebar .form-check-input:checked {
-  background-color: #495057; /* Darker color when checked */
-  border-color: #495057;
+  background-color: #3a1078; /* Darker color when checked */
+  border-color: #3a1078; /* Matching border color */
 }
 
+/* Label text styling */
 .sidebar .form-check-label {
-  color: #212529; /* Label text color (you can adjust this if needed) */
+  color: #ffffff; /* Change label text color for better visibility */
+  font-weight: 500; /* Slightly bolder label text */
 }
 
+.accordion-body {
+  background-color: #252525; /* Accordion body background color */
+  color: #ffffff; /* Change text color for better contrast */
+}
+
+/* Collapsing button styling */
+.custom-accordion .accordion-button {
+  background-color: #3a1078; /* Background color for the accordion button */
+  color: #ffffff; /* Text color for better contrast */
+  border: none; /* Remove border */
+}
+
+.custom-accordion .accordion-button:not(.collapsed) {
+  background-color: #3a1078; /* Color when the button is expanded */
+  color: #ffffff; /* Text color when expanded */
+}
+
+.custom-accordion .accordion-button:focus {
+  box-shadow: 0 0 0 0.25rem rgba(58, 16, 120, 0.5); /* Add focus shadow */
+}
+
+/* Divider styling */
 .sidebar .filter-divider {
-  margin: 10px 0;  /* Add margin to space the line */
-  border-top: 1px solid #ddd; /* Thin horizontal line */
+  margin: 15px 0; /* Add margin to space the line */
+  border-top: 1px solid #dee2e6; /* Slightly lighter thin horizontal line */
   width: 100%; /* Full width */
+}
+
+/* Hover effect for sidebar items */
+.sidebar .form-check:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Light gray on hover for contrast */
+  border-radius: 4px; /* Rounded corners on hover */
+}
+
+/* Button styling */
+.sidebar .btn-primary {
+  background-color: #3a1078; /* Bootstrap primary color */
+  /* Match border color */
+  transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transition */
 }

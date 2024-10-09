@@ -3,6 +3,7 @@ import { Stack, Form, Button, Container, Card, Row, Col, Alert } from 'react-boo
 import { useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext'; 
+import './AddProduct.css'; // Importing the CSS file
 
 function AddProduct() {
   const { user } = useContext(AuthContext);
@@ -70,12 +71,11 @@ function AddProduct() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
-        // Here, you can use a reverse geocoding API to convert lat/lng to address
         fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`)
           .then(response => response.json())
           .then(data => {
             if (data && data.display_name) {
-              setNewProduct({ ...newProduct, location: data.display_name }); // Update the location state
+              setNewProduct({ ...newProduct, location: data.display_name });
               setError('');
             }
           })

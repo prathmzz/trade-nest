@@ -1,0 +1,81 @@
+/* AddProduct.css */
+
+/* Container styles */
+.container {
+    margin-top: 20px; /* Space above the form */
+  }
+  
+  /* Card styling */
+  .card {
+    background-color: #252525; /* Dark background for the card */
+    border: none; /* Remove the default border */
+    border-radius: 0.5rem; /* Rounded corners */
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  }
+  
+  /* Card title */
+  .card-title {
+    color: #ffffff; /* White color for card title */
+  }
+  
+  /* Form label styling */
+  .form-label {
+    color: #ffffff; /* White color for form labels */
+  }
+  
+  /* Form group styling */
+  .form-group {
+    margin-bottom: 1.5rem; /* Space below each form group */
+  }
+  
+  /* Input and Textarea styles */
+  .form-control {
+    background-color: white; /* Darker background for input fields */
+    color: #ffffff; /* White text color */
+    border: 1px solid #3a1078; /* Custom border color */
+  }
+  
+  .form-control:focus {
+    background-color: white; /* Keep same color on focus */
+    border-color: #3a1078; /* Border color on focus */
+    box-shadow: none; /* Remove default Bootstrap shadow */
+  }
+  
+  /* Button styles */
+  .btn-primary {
+    background-color: #3a1078; /* Primary button background color */
+    border: none; /* Remove border */
+  }
+  
+  .btn-primary:hover {
+    background-color: #5c4e85; /* Darker shade on hover */
+  }
+  
+  /* Alert styles */
+  .alert {
+    margin-top: 1rem; /* Space above alerts */
+    color: #ffffff; /* Ensure alert text is visible */
+  }
+  
+  /* Location Button */
+  .btn-secondary {
+    background-color: #6c757d; /* Default secondary button color */
+    border: none; /* Remove border */
+  }
+  
+  .btn-secondary:hover {
+    background-color: #5a6268; /* Darker secondary button on hover */
+  }
+  
+  /* Adjust the button in the location input */
+  .btn-secondary {
+    margin-top: 24px; /* Space above the button */
+  }
+  
+  /* Media queries for responsiveness */
+  @media (max-width: 768px) {
+    .card {
+      margin: 0 15px; /* Adjust margins for smaller screens */
+    }
+  }
+  
