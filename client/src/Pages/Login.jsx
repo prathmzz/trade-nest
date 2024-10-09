@@ -37,7 +37,7 @@ const Login = () => {
             }}
           >
             <Col xs={12} md={6} lg={4}> {/* Adjusted the column size for responsiveness */}
-              <Stack gap={3} className="border p-4 rounded shadow"> {/* Added border, padding, and shadow for better visuals */}
+              <Stack gap={3} > {/* Added border, padding, and shadow for better visuals */}
                 <h2 className="text-center">Login</h2> {/* Centered the title */}
 
                 <Form.Control
