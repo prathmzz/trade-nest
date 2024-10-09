@@ -1,0 +1,57 @@
+.view-listings {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 10px; /* Spacing below the heading */
+}
+
+.user-email {
+    color: #555;
+    font-weight: bold; /* Make the email stand out */
+    margin-bottom: 20px; /* Space below the email */
+}
+
+.listing-container {    
+    display: flex;
+    flex-direction: column; /* Arrange items vertically */
+    gap: 20px; /* Space between cards */
+}
+
+.listing-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.listing-card:hover {
+    transform: scale(1.02); /* Slightly scale up on hover */
+}
+
+.listing-image {
+    width: 200px;  /* Set width to 200px */
+    height: 200px; /* Set height to 200px */
+    object-fit: cover; /* Ensure the image covers the area without distortion */
+    border-radius: 10px; /* Maintain rounded corners */
+    margin-bottom: 10px; /* Space below the image */
+}
+
+.listing-description {
+    font-size: 1.2em; /* Increase font size for better visibility */
+    color: #333; /* Darker color for contrast */
+    margin-bottom: 10px; /* Space below the description */
+    font-weight: 600; /* Bold the description text */
+    border: 1px solid #ccc; /* Optional: border for better visibility */
+    padding: 10px; /* Add some padding around the description */
+    border-radius: 5px; /* Round the corners of the description */
+}
+
+p {
+    color: #555;
+}

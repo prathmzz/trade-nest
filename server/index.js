@@ -101,10 +101,8 @@ app.post("/add-listing", upload.single('image'), async (req, res) => {
   const { description, price, email } = req.body;
   // Store image path in a URL-friendly format
   const image = `/uploads/${req.file.filename}`;
-
-
   try {
-    const listing = new listingModel({ description, price, image, email });
+    const listing = new productModel({ description, price, image, email });
     await listing.save();
     console.log("Listing saved:", listing);
     res.json({ message: 'Listing saved successfully', listing });
@@ -127,14 +125,63 @@ app.get('/get-listings', async (req, res) => {
   }
 });
 
-// MongoDB connection
-(async () => {  
-  try {
-    await mongoose.connect(uri);
-    console.log("MongoDB connection established");
-  } catch (error) {
-    console.log("MongoDB connection failed", error.message);
+// Delete listing 
+app.delete('/delete-listing/:listingId', async (req, res) => {
+  const listingId = req.params.listingId.trim(); // Trim any whitespace/newlines
+
+  if (!listingId) {
+      return res.status(400).json({ message: "Listing ID is required" });
   }
+
+  try {
+      // Use findByIdAndDelete to remove the listing by ID
+      const deletedListing = await productModel.findByIdAndDelete(listingId);
+
+      if (!deletedListing) {
+          return res.status(404).json({ message: "Listing not found" });
+      }
+
+      res.json({ message: "Listing deleted successfully", deletedListing });
+  } catch (error) {
+      console.error("Error deleting listing:", error);
+      res.status(500).json({ message: "Server error" });
+  }
+});
+
+
+
+
+
+
+// Connect to MongoDB
+(async () => {
+  try {
+    await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 20000, // 20 seconds
+      connectTimeoutMS: 10000, // 10 seconds
+    });
+    console.log("MongoDB connection established successfully");
+  } catch (error) {
+    console.error("MongoDB connection failed:", error.message);
+  }
+
+  // Optional: Add an event listener for connection events
+  mongoose.connection.on('error', (err) => {
+    console.error("MongoDB connection error:", err);
+  });
+
+  mongoose.connection.on('disconnected', () => {
+    console.warn("MongoDB connection lost");
+  });
+
+  // Ensure proper cleanup on exit
+  process.on('SIGINT', async () => {
+    await mongoose.connection.close();
+    console.log("MongoDB connection closed due to application termination");
+    process.exit(0);
+  });
 })();
 
 // Socket.io connection
