@@ -7,7 +7,7 @@ const Chat = () => {
 
   return (
     <>
-      <h1>Chat with us on WhatsApp</h1>
+      <h1>Chat via WhatsApp</h1>
       <p>Click the link below to start chatting:</p>
       <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
         Open WhatsApp Chat

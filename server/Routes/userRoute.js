@@ -16,7 +16,7 @@ router.get("/find/:userId", findUser);
 router.get("/",getUsers);
 
 router.post("/send-otp", async (req, res) => {
-  const email = "mr.mohitpatil003@gmail.com";
+  const email = req.body.email;
   // const { email } = req.body.emailId;
   const result = await sendOtp(email);
   res.json(result);
